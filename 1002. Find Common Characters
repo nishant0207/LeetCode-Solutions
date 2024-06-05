@@ -1,0 +1,47 @@
+class Solution {
+    public List<String> commonChars(String[] words) {
+        HashMap<Character,Integer> map = new HashMap();
+        
+        List<String> list = new ArrayList();
+        
+        for(int i =0;i<words[0].length();i++){
+            if(map.containsKey(words[0].charAt(i))){
+                int count = map.get(words[0].charAt(i));
+                map.put(words[0].charAt(i),count+1);
+            }else{
+                map.put(words[0].charAt(i),1);
+            }
+        }
+
+        for(int i =1;i<words.length;i++){
+            int idx = 0;
+            HashMap<Character,Integer> map1 = new HashMap();
+            while(idx<words[i].length()){
+                int count = 0;
+                if(map1.containsKey(words[i].charAt(idx))){
+                    count = map1.get(words[i].charAt(idx));
+                    map1.put(words[i].charAt(idx),count+1);
+                }else{
+                    map1.put(words[i].charAt(idx),1);
+                }
+                idx++;
+            }
+            for(Map.Entry<Character,Integer> obj: map.entrySet()){
+                if(map1.containsKey(obj.getKey())){
+                    int count = (Math.min(map1.get(obj.getKey()),map.get(obj.getKey())));
+                    map.put(obj.getKey(),count);
+                }else{
+                    map.put(obj.getKey(),0);
+                }
+            }
+        }
+        for(Map.Entry<Character, Integer> entry : map.entrySet()){
+            int count = entry.getValue();
+            for(int i = 0; i < count; i++){
+                list.add(String.valueOf(entry.getKey()));
+            }
+        }
+
+        return list;
+    }
+}
